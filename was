@@ -1,0 +1,70 @@
+import {StyleSheet, Text, SafeAreaView, View} from 'react-native';
+import { gStyle } from "../styles/style";
+import React, {useState} from "react";
+
+const Line = ({ top }) => (
+    <View style={[gStyle.line, { top }]} />
+);
+
+const NumberRow = ({ numbers }) => (
+    <View style={gStyle.numberRow}>
+        {numbers.map((number, index) => (
+            <Text key={index} style={gStyle.number}>
+                {number}
+            </Text>
+        ))}
+    </View>
+);
+
+export default function Main() {
+    const linePositions = [40, 110, 180, 250, 320];
+
+    // Функция для группировки чисел
+    const groupNumbers = (arr, size) => {
+        return arr.reduce((result, item, index) => {
+            const chunkIndex = Math.floor(index / size);
+            if (!result[chunkIndex]) {
+                result[chunkIndex] = [];
+            }
+            result[chunkIndex].push(item);
+            return result;
+        }, []);
+    };
+
+    const numbers = [...Array(31)].map((_, i) => i + 1);
+    const groupedNumbers = groupNumbers(numbers, 7);
+
+    return (
+        <SafeAreaView style={gStyle.main}>
+            <Text style={gStyle.title}>Ноябрь</Text>
+
+            {linePositions.map((top, index) => (
+                <View key={index}>
+                    <Line top={top} />
+                    {index < groupedNumbers.length && (
+                        <NumberRow numbers={groupedNumbers[index]} />
+                    )}
+                </View>
+            ))}
+
+        </SafeAreaView>
+    );
+}
+
+const styles = StyleSheet.create({
+
+});
+
+
+--------------------------------
+    return (
+        <SafeAreaView style={gStyle.main}>
+            <Text style={gStyle.title}>Ноябрь</Text>
+
+            {linePositions.map((top, index) => (
+                <Line key={index} top={top} />
+            ))}
+
+        </SafeAreaView>
+------------
+, index    и       key={index} можно удалить и вроде ничего не изменится
